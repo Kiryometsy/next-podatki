@@ -14,26 +14,36 @@ B) opis
 2) Co i jak chcemy zrobić (user stories itp)
 3) "wymagania" (must, should, could, won't)
 ```
-1. kwota brutto
+1. kwota brutto - 1000
 2. odliczanie składek: 
--emerytalna 9,76%
-- rentowa 1,5%
-chorobowa 2,45%
+-emerytalna 9,76% =97,6
+- rentowa 1,5% = 15
+chorobowa 2,45% = 24,5
 
 
-[OBLICZENIA OD KWOTY BRUTTO]
-[SUMA]
+[OBLICZENIA OD KWOTY BRUTTO] 
+[SUMA] = 137.1
 
 3.Podstawa składki na ubezpieczenie:
 KWOTA BRUTTO - ODLICZONE SKLADKI = PODSTAWA SKLADKI
-
+1000 - 137.1 = 862,90
 
 4.SKŁADKA ZDROWOTNA
  PODSTAWA SKLADKI -9% = SKLADKA ZDROWOTNA
 
+862,9 - 9% = 77,66
 
-5.NETTO 
-KWOTA BRUTTO - wszystkie składki - skladka na ubezpieczenie 
+KOSZTY UZYSKANIA PRZYCHODU:
+862,9 * 20% = 172,58
+
+DOCHÓD DO OPODATKOWANIA:
+[BRUTTO] - [SKLADKI SPOLECZNE] - [KOSZT UZYSKANIA PRZYCHODU(ZAOKRAGLIC DO PELNEJ LICZBY)] = 
+1000 - 862,9 -
+DOCHOD DO OPDATKOWANIA * 12% = [ZALICZKA NA PODATEK DOCHODOWY]
+
+BRUTOO - [SKLADKI SPOLECZNE] - [SKLADKA ZDROWOTNA] -[ZALICZKA NA PODATEK]
+
+
 
 https://pomoc.ifirma.pl/pomoc-artykul/jak-wyliczyc-wynagrodzenie-netto/#2.1.
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
