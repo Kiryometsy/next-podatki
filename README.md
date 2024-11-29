@@ -14,8 +14,28 @@ B) opis
 2) Co i jak chcemy zrobić (user stories itp)
 3) "wymagania" (must, should, could, won't)
 ```
+1. kwota brutto
+2. odliczanie składek: 
+-emerytalna 9,76%
+- rentowa 1,5%
+chorobowa 2,45%
 
 
+[OBLICZENIA OD KWOTY BRUTTO]
+[SUMA]
+
+3.Podstawa składki na ubezpieczenie:
+KWOTA BRUTTO - ODLICZONE SKLADKI = PODSTAWA SKLADKI
+
+
+4.SKŁADKA ZDROWOTNA
+ PODSTAWA SKLADKI -9% = SKLADKA ZDROWOTNA
+
+
+5.NETTO 
+KWOTA BRUTTO - wszystkie składki - skladka na ubezpieczenie 
+
+https://pomoc.ifirma.pl/pomoc-artykul/jak-wyliczyc-wynagrodzenie-netto/#2.1.
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
