@@ -1,32 +1,36 @@
-'use client'
+// EmployeeSalaryInput.js
+'use client';
 import { useState } from 'react';
+import { useSalary } from '../SalaryContext'; // Import the context
 
 const EmployeeSalaryInput = () => {
-  // Initial state with one employee
   const [employees, setEmployees] = useState([{ salary: '' }]);
-
-  // Handle salary change for a specific employee
+  const { addSalary } = useSalary(); // Access the addSalary function from context
+  
   const handleSalaryChange = (index, value) => {
     const updatedEmployees = [...employees];
     updatedEmployees[index].salary = value;
     setEmployees(updatedEmployees);
   };
 
-  // Add a new employee (empty salary field)
   const addEmployee = () => {
     setEmployees([...employees, { salary: '' }]);
   };
 
-  // Remove an employee (based on index)
   const removeEmployee = (index) => {
     const updatedEmployees = employees.filter((_, i) => i !== index);
     setEmployees(updatedEmployees);
   };
 
-  // Optional: Handle form submission or other logic
   const handleSubmit = () => {
-    console.log(employees); // Here you can process the salaries (e.g., send them to a server)
+    employees.forEach(employee => {
+      if (employee.salary && !isNaN(employee.salary)) {
+        addSalary(parseFloat(employee.salary)); // Add salary to context
+      }
+    });
+    setEmployees([{ salary: '' }]); // Reset to one empty employee
   };
+  
 
   return (
     <div className="p-4">
