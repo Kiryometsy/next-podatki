@@ -1,10 +1,9 @@
-// EmployeeSalaryInput.js
 'use client';
 import { useState } from 'react';
 import { useSalary } from '../SalaryContext'; // Import the context
 
 const EmployeeSalaryInput = () => {
-  const [employees, setEmployees] = useState([{ salary: '' }]);
+  const [employees, setEmployees] = useState([{ salary: '', isStudent: false }]);
   const { addSalary } = useSalary(); // Access the addSalary function from context
   
   const handleSalaryChange = (index, value) => {
@@ -13,8 +12,14 @@ const EmployeeSalaryInput = () => {
     setEmployees(updatedEmployees);
   };
 
+  const handleStudentToggle = (index) => {
+    const updatedEmployees = [...employees];
+    updatedEmployees[index].isStudent = !updatedEmployees[index].isStudent;
+    setEmployees(updatedEmployees);
+  };
+
   const addEmployee = () => {
-    setEmployees([...employees, { salary: '' }]);
+    setEmployees([...employees, { salary: '', isStudent: false }]);
   };
 
   const removeEmployee = (index) => {
@@ -23,14 +28,13 @@ const EmployeeSalaryInput = () => {
   };
 
   const handleSubmit = () => {
-    employees.forEach(employee => {
+    employees.forEach((employee) => {
       if (employee.salary && !isNaN(employee.salary)) {
-        addSalary(parseFloat(employee.salary)); // Add salary to context
+        addSalary({ salary: parseFloat(employee.salary), isStudent: employee.isStudent });
       }
     });
-    setEmployees([{ salary: '' }]); // Reset to one empty employee
+    setEmployees([{ salary: '', isStudent: false }]); // Reset to one empty employee
   };
-  
 
   return (
     <div className="p-4">
@@ -50,6 +54,15 @@ const EmployeeSalaryInput = () => {
                 className="px-4 py-2 border border-gray-300 rounded-md w-48"
                 placeholder="Enter salary"
               />
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={employee.isStudent}
+                  onChange={() => handleStudentToggle(index)}
+                  className="form-checkbox"
+                />
+                <span>Is Student</span>
+              </label>
               {employees.length > 1 && (
                 <button
                   type="button"
@@ -83,7 +96,9 @@ const EmployeeSalaryInput = () => {
         <h2 className="text-lg font-semibold">Employee Salaries:</h2>
         <ul className="list-disc ml-6">
           {employees.map((employee, index) => (
-            <li key={index}>Employee {index + 1}: ${employee.salary}</li>
+            <li key={index}>
+              <span className="ml-2">Employee {index + 1}: {employee.salary || 0}zł, {employee.isStudent ? 'Student' : 'Non-Student'}</span>,
+            </li>
           ))}
         </ul>
       </div>

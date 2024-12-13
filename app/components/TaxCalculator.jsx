@@ -1,4 +1,3 @@
-// TaxCalculator.js
 'use client';
 import { useSalary } from '../SalaryContext'; // Import the context
 
@@ -12,11 +11,12 @@ const TaxCalculator = () => {
         <h2 className="text-lg font-semibold">Employee Tax Details:</h2>
         <ul className="list-disc ml-6">
           {salaries.length > 0 ? (
-            salaries.map((salary, index) => (
+            salaries.map(({ salary, isStudent }, index) => (
               <li key={index}>
                 Employee {index + 1}:
-                <span className="ml-2">Salary: ${salary.toFixed(2)}</span>,
-                <span className="ml-2">Tax: ${calculateTax(salary).toFixed(2)}</span>
+                <span className="ml-2">Salary: {salary.toFixed(2)} zł</span>,
+                <span className="ml-2">Tax: {calculateTax({ salary, isStudent }).toFixed(2)} zł</span>,
+                <span className="ml-2">{isStudent ? 'Student' : 'Non-Student'}</span>
               </li>
             ))
           ) : (
@@ -25,7 +25,7 @@ const TaxCalculator = () => {
         </ul>
       </div>
       <div className="mt-4">
-        <h3 className="text-lg font-semibold">Total Tax: ${calculateTotalTax().toFixed(2)}</h3>
+        <h3 className="text-lg font-semibold">Total Tax: {calculateTotalTax().toFixed(2)} zł</h3>
       </div>
     </div>
   );
