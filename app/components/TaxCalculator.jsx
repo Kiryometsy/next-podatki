@@ -1,76 +1,144 @@
 "use client";
 
+import { useState } from "react";
 import { useSalary } from "../SalaryContext";
 
-const EmployeeDetail = ({
-	index,
-	grossSalary,
-	afterTax,
-	ZUS,
-	koszty,
-	zaliczkaPit,
-	isStudent,
-	totalCost,
-	secZUS,
-	Fp,
-	FGSP,
-}) => (
-	<li>
-		Employee {index + 1}:
-		<span className="ml-2">Salary: {grossSalary.toFixed(2)} zł</span>,
-		<span className="ml-2">After Tax: {afterTax.toFixed(2)} zł</span>,
-		<span className="ml-2">{isStudent ? "Student" : "Non-Student"}</span>,
-		<span className="ml-2">ZUS: {ZUS.toFixed(2)} zł</span>,
-		<span className="ml-2">Koszty: {koszty.toFixed(2)} zł</span>,
-		<span className="ml-2">Zaliczka Pit: {zaliczkaPit.toFixed(2)} zł</span>,
-		<span className="ml-2">Koszty całkowite: {totalCost.toFixed(2)} zł</span>,
-		<span className="ml-2">ZUS: {secZUS.toFixed(2)} zł</span>,
-		<span className="ml-2">FP: {Fp.toFixed(2)} zł</span>,
-		<span className="ml-2">FGŚP: {FGSP.toFixed(2)} zł</span>,
-	</li>
-);
-
 const TaxCalculator = () => {
-	const { salaries, calculatedSalaries, calculateTotalTax } = useSalary();
+  const {
+    salaries,
+    calculatedSalaries,
+    calculateTotalTax,
+    calculateTotalEmployeerExpense,
+  } = useSalary();
+  const [showEmployeeDetails, setShowEmployeeDetails] = useState(true);
 
-	return (
-		<div className="p-4 mt-8">
-			<h1 className="text-xl font-semibold">Tax Calculator</h1>
-			<div className="mt-4">
-				<h2 className="text-lg font-semibold">Employee Tax Details:</h2>
-				<ul className="list-disc ml-6">
-					{console.log(calculatedSalaries, "w taxcalculator")}
-					{salaries.length > 0 ? (
-						calculatedSalaries.map(
-							([afterTax, taxDetails, taxDetailEmployeer], index) => (
-								<EmployeeDetail
-									key={index}
-									index={index}
-									grossSalary={salaries[index].salary}
-									afterTax={afterTax}
-									ZUS={taxDetails.ZUS}
-									koszty={taxDetails.koszty}
-									zaliczkaPit={taxDetails.zaliczka_Pit}
-									isStudent={salaries[index].isStudent}
-									totalCost={taxDetailEmployeer.Calkowite}
-									secZUS={taxDetailEmployeer.ZUS}
-									Fp={taxDetailEmployeer.FP}
-									FGSP={taxDetailEmployeer.FGSP}
-								/>
-							)
-						)
-					) : (
-						<li>No employees added yet.</li>
-					)}
-				</ul>
-			</div>
-			<div className="mt-4">
-				<h3 className="text-lg font-semibold">
-					Total Tax: {calculateTotalTax().toFixed(2)} zł
-				</h3>
-			</div>
-		</div>
-	);
+  const toggleView = () => setShowEmployeeDetails((prev) => !prev);
+
+  return (
+    <div className="p-4 mt-8">
+      <h1 className="text-xl font-semibold">Tax Calculator</h1>
+      <div className="mt-4 flex justify-between items-center">
+        <h2 className="text-lg font-semibold">
+          {showEmployeeDetails ? "Employee Tax Details" : "Employer's Expense"}
+        </h2>
+        <button
+          onClick={toggleView}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          {showEmployeeDetails
+            ? "Show Employer's Expense"
+            : "Show Employee Tax Details"}
+        </button>
+      </div>
+      <div className="mt-4 overflow-x-auto">
+        {calculatedSalaries.length > 0 ? (
+          <table className="min-w-full table-auto border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border border-gray-300 px-4 py-2">Employee</th>
+                {showEmployeeDetails ? (
+                  <>
+                    <th className="border border-gray-300 px-4 py-2">
+                      Salary (zł)
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">
+                      After Tax (zł)
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">
+                      ZUS (zł)
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">
+                      Koszty (zł)
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">
+                      Zaliczka PIT (zł)
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">
+                      Student Status
+                    </th>
+                  </>
+                ) : (
+                  <>
+                    <th className="border border-gray-300 px-4 py-2">
+                      Total Cost (zł)
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">
+                      Secondary ZUS (zł)
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">
+                      FP (zł)
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2">
+                      FGŚP (zł)
+                    </th>
+                  </>
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              {calculatedSalaries.map(
+                ([afterTax, taxDetails, taxDetailEmployeer], index) => (
+                  <tr
+                    key={index}
+                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                  >
+                    <td className="border border-gray-300 px-4 py-2 text-center">
+                      Employee {index + 1}
+                    </td>
+                    {showEmployeeDetails ? (
+                      <>
+                        <td className="border border-gray-300 px-4 py-2 text-right">
+                          {taxDetails.wyplata.toFixed(2)}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-right">
+                          {afterTax.toFixed(2)}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-right">
+                          {taxDetails.ZUS.toFixed(2)}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-right">
+                          {taxDetails.koszty.toFixed(2)}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-right">
+                          {taxDetails.zaliczka_Pit.toFixed(2)}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-center">
+                          {taxDetails.isStudent ? "Student" : "Non-Student"}
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td className="border border-gray-300 px-4 py-2 text-right">
+                          {taxDetailEmployeer.Calkowite.toFixed(2)}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-right">
+                          {taxDetailEmployeer.ZUS.toFixed(2)}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-right">
+                          {taxDetailEmployeer.FP.toFixed(2)}
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2 text-right">
+                          {taxDetailEmployeer.FGSP.toFixed(2)}
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+        ) : (
+          <p className="mt-2">No employees added yet.</p>
+        )}
+      </div>
+      <div className="mt-4">
+        <h3 className="text-lg font-semibold">
+          Total Net Amount: {calculateTotalTax().toFixed(2)} zł <br />
+          Total Employeer Cost: {calculateTotalEmployeerExpense().toFixed(2)} zł
+        </h3>
+      </div>
+    </div>
+  );
 };
 
 export default TaxCalculator;
