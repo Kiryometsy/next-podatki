@@ -1,34 +1,21 @@
-import localFont from "next/font/local";
+// app/layout.js
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-
 export const metadata = {
-  title: "Najlepszy Kalkulator",
-  description: "The best calculator app for all your needs!",
+	title: "Next-Podatki",
+	description: "Tax calculation made easy.",
 };
 
 export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className="flex flex-col min-h-screen bg-gray-100 text-gray-900 font-sans">
+				<Navbar />
+				<main className="flex-grow mt-16 px-6 py-4">{children}</main>
+				<Footer />
+			</body>
+		</html>
+	);
 }
