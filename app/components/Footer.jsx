@@ -6,6 +6,10 @@ export default function Footer() {
 				<p className="text-sm">
 					© {new Date().getFullYear()} Next-Podatki. All rights reserved.
 				</p>
+				<p className="text-sm">
+					Projekt autorstwa: Radosław Babiński, Michał Faber, Dudek Piotr,
+					Wiktoria Zygmunt, Sebastian Groń, Kacper Główczyk.
+				</p>
 			</div>
 		</footer>
 	);
